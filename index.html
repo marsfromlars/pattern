@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>patterns</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script src="color.js"></script>
+    <script src="pattern.js"></script>
+    <script>
+
+      let canvas = document.getElementById( 'c' )
+
+      fullbody( canvas )
+
+      let context = canvas.getContext( '2d' );
+      fillBackground( context, 'white' )
+
+      let themes = {
+        cloud: [ '#9dc5f9', '#d9ebff', '#eff4ff' ],
+        recreation: [ "#b0d0af", "#c7dfc6", "#f4ffd6" ],
+        parks: [ "#a5f4ad", "#d0fcd5", "#effef1" ],
+        family: [ "#ffde4c", "#fff1c4", "#f4ecc3" ],
+        devil: [ "#ff7f77", "#ffd2c1", "#fff0e2" ]
+      }
+
+      let size = { w: 15, h: 25 }
+      let space = 1
+
+      let config = {
+        shape: 'diamond',
+        size: size,
+        rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
+        colorTheme: themes.parks,
+        colorShift: {
+          saturation: {
+            x: .00001,
+            y: .00001
+          }
+        }
+      }
+
+      createPattern( context, config )
+
+    </script>
+  </body>
+</html>
