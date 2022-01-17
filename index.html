@@ -18,24 +18,28 @@
       fullbody( canvas )
 
       let context = canvas.getContext( '2d' );
-      fillBackground( context, 'white' )
 
       let themes = {
         cloud: [ '#9dc5f9', '#d9ebff', '#eff4ff' ],
         recreation: [ "#b0d0af", "#c7dfc6", "#f4ffd6" ],
-        parks: [ "#a5f4ad", "#d0fcd5", "#effef1" ],
+        parks: [ "#b0d0af", "#c7dfc6", "#f4ffd6" ],
+        parks2: [ "#a5f4ad", "#d0fcd5", "#effef1" ],
         family: [ "#ffde4c", "#fff1c4", "#f4ecc3" ],
-        devil: [ "#ff7f77", "#ffd2c1", "#fff0e2" ]
+        devil: [ "#ff7f77", "#ffd2c1", "#fff0e2" ],
+        mix: [ "#a5f4ad", "#d0fcd5", "#effef1", "#ffde4c", "#9dc5f9" ]
       }
+      let theme = themes.cloud
 
-      let size = { w: 15, h: 25 }
+      fillBackground( context, theme[ 0 ] )
+
+      let size = { w: 50, h: 80 }
       let space = 1
 
       let config = {
         shape: 'diamond',
         size: size,
         rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
-        colorTheme: themes.parks,
+        colorTheme: theme,
         colorShift: {
           saturation: {
             x: .00001,
