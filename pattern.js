@@ -11,6 +11,13 @@ function fillBackground( context, color ) {
   context.restore()  
 }
 
+function fillBackgroundGradient( context, color ) {
+  context.save()
+  context.fillStyle = color
+  context.fillRect( 0, 0, context.canvas.width, context.canvas.height )
+  context.restore()  
+}
+
 function createPattern( context, config ) {
 
   context.save()
@@ -51,12 +58,12 @@ function colorShift( color, position, config ) {
   if( config.colorShift ) {
     if( config.colorShift.value ) {
       let v = hsv[ 2 ]
-      v = colorComponentShift( v, position, config.colorShift.value )
+      v = colorComponentShift3( v, position, config.colorShift.value )
       hsv = [ hsv[ 0 ], hsv[ 1 ], v ]
     }
     if( config.colorShift.saturation ) {
       let s = hsv[ 1 ]
-      s = colorComponentShift( s, position, config.colorShift.value )
+      s = colorComponentShift3( s, position, config.colorShift.saturation )
       hsv = [ hsv[ 0 ], s, hsv[ 2 ] ]
     }
   }
@@ -66,12 +73,27 @@ function colorShift( color, position, config ) {
 }
 
 function colorComponentShift( component, position, shift ) {
-  return Math.max( 0, component * ( ( 800 - position.x ) / 800 ) * ( ( 800 - position.y ) / 800 ) )
+  return Math.max( 0, component * 1 - ( Math.max( 0, position.x ) * shift.x ) * 1 - ( Math.max( 0, position.y ) * shift.y ) )
+}
+
+function colorComponentShift2( component, position, shift ) {
+  return Math.max( 0, component + Math.max( 0, position.x ) * shift.x * Math.max( 0, position.y ) * shift.y )
+}
+
+function colorComponentShift3( component, position, shift ) {
+  return Math.max( 0, component - Math.min( 1, Math.max( 0, position.x ) * shift.x * Math.max( 0, position.y ) * shift.y ) )
 }
 
 function createShape( shape, size ) {
   let points = []
   if( shape == 'diamond' ) {
+    points.push( { x: size.w / 2, y: 0 } )
+    points.push( { x: size.w, y: size.h / 2 } )
+    points.push( { x: size.w / 2, y: size.h } )
+    points.push( { x: 0, y: size.h / 2 } )
+    points.push( { x: size.w / 2, y: 0 } )
+  }
+  else if( shape == 'triangle' ) {
     points.push( { x: size.w / 2, y: 0 } )
     points.push( { x: size.w, y: size.h / 2 } )
     points.push( { x: size.w / 2, y: size.h } )
