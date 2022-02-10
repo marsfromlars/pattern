@@ -96,8 +96,21 @@ function createShape( shape, size ) {
   else if( shape == 'triangle' ) {
     points.push( { x: size.w / 2, y: 0 } )
     points.push( { x: size.w, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: size.h } )
+//    points.push( { x: size.w / 2, y: size.h } )
     points.push( { x: 0, y: size.h / 2 } )
+    points.push( { x: size.w / 2, y: 0 } )
+  }
+  else if( shape == 'tree' ) {
+    points.push( { x: size.w / 2, y: 0 } )
+    points.push( { x: size.w * .75, y: size.h } )
+    points.push( { x: size.w * .25, y: size.h } )
+    points.push( { x: size.w / 2, y: 0 } )
+  }
+  else if( shape == 'arrow' ) {
+    points.push( { x: size.w / 2, y: 0 } )
+    points.push( { x: size.w, y: size.h / 2 } )
+    points.push( { x: size.w / 2, y: size.h } )
+    //points.push( { x: 0, y: size.h / 2 } )
     points.push( { x: size.w / 2, y: 0 } )
   }
   else {
