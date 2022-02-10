@@ -32,6 +32,9 @@
       // let canvas = document.getElementById( 'c' )
       // fullbody( canvas )
 
+      let themeNames = Object.keys( themes )
+      let themeIndex = Math.floor( Math.random() * themeNames.length )
+
       for( let i = 0; i < canvases.length; i++ ) {
 
         let canvas = canvases[ i ]
@@ -45,7 +48,6 @@
         let size = { w: 20, h: 32 }
         let space = 1
         let screenWidth = canvas.width * 3
-        let themeNames = Object.keys( themes )
         let shapeName = shapeNames[ i ]
 
         let config = {
@@ -53,7 +55,7 @@
           shapeObject: shapes[ shapeName ],
           size: size,
           rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
-          colorTheme: themes[ themeNames[ i % themeNames.length ] ],
+          colorTheme: themes[ themeNames[ themeIndex % themeNames.length ] ],
           colorShift: {
             value1: {
               x: -1 / screenWidth / 2,
@@ -67,6 +69,8 @@
         }
 
         createPattern( context, config )
+
+        themeIndex++
 
       }
 
