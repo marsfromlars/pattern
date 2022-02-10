@@ -23,9 +23,20 @@ function createPattern( context, config ) {
   context.save()
   let canvas = context.canvas
   let maxX = canvas.width + config.size.w, maxY = canvas.height + config.size.h
+  let shapeObject = config.shapeObject
 
   let position = { x: 0, y: -config.size.h }
-  let points = createShape( config.shape, config.size )
+
+  let points = []
+  for( let i = 0; i < shapeObject.points.length; i++ ) {
+    let pointTemplate = shapeObject.points[ i ]
+    let point = {
+      x: pointTemplate[ 0 ] * config.size.w,
+      y: pointTemplate[ 1 ] * config.size.h
+    }
+    points.push( point )
+  }
+
   let rowOffsetIndex = 0
   while( position.y < maxY ) {
     let rowOffset = config.rowOffsets[ rowOffsetIndex ]
@@ -82,41 +93,6 @@ function colorComponentShift2( component, position, shift ) {
 
 function colorComponentShift3( component, position, shift ) {
   return Math.max( 0, component - Math.min( 1, Math.max( 0, position.x ) * shift.x * Math.max( 0, position.y ) * shift.y ) )
-}
-
-function createShape( shape, size ) {
-  let points = []
-  if( shape == 'diamond' ) {
-    points.push( { x: size.w / 2, y: 0 } )
-    points.push( { x: size.w, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: size.h } )
-    points.push( { x: 0, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: 0 } )
-  }
-  else if( shape == 'triangle' ) {
-    points.push( { x: size.w / 2, y: 0 } )
-    points.push( { x: size.w, y: size.h / 2 } )
-//    points.push( { x: size.w / 2, y: size.h } )
-    points.push( { x: 0, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: 0 } )
-  }
-  else if( shape == 'tree' ) {
-    points.push( { x: size.w / 2, y: 0 } )
-    points.push( { x: size.w * .75, y: size.h } )
-    points.push( { x: size.w * .25, y: size.h } )
-    points.push( { x: size.w / 2, y: 0 } )
-  }
-  else if( shape == 'arrow' ) {
-    points.push( { x: size.w / 2, y: 0 } )
-    points.push( { x: size.w, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: size.h } )
-    //points.push( { x: 0, y: size.h / 2 } )
-    points.push( { x: size.w / 2, y: 0 } )
-  }
-  else {
-    throw 'Unknown shape: ' + shape
-  }
-  return points
 }
 
 function drawShape( context, points, offset ) {

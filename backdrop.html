@@ -14,15 +14,16 @@
     <script src="color.js"></script>
     <script src="pattern.js"></script>
     <script src="themes.js"></script>
+    <script src="shapes.js"></script>
     <script>
 
-      let shapes = [ 'diamond', 'triangle', 'tree', 'arrow' ]
+      let shapeNames = Object.keys( shapes ) // [ 'diamond', 'triangle', 'tree', 'arrow' ]
       let canvases = []
 
-      for( let i = 0; i < shapes.length; i++ ) {
+      for( let i = 0; i < shapeNames.length; i++ ) {
         let canvas = document.createElement( 'canvas' )
         canvas.setAttribute( 'width', window.innerWidth + 'px' )
-        canvas.setAttribute( 'height', ( window.innerHeight / shapes.length ) + 'px' )
+        canvas.setAttribute( 'height', ( window.innerHeight / shapeNames.length ) + 'px' )
         canvases.push( canvas )
         document.body.appendChild( canvas )
         document.body.appendChild( document.createElement( 'br' ) )
@@ -45,9 +46,11 @@
         let space = 1
         let screenWidth = canvas.width * 3
         let themeNames = Object.keys( themes )
+        let shapeName = shapeNames[ i ]
 
         let config = {
-          shape: shapes[ i ],
+          shape: shapeName,
+          shapeObject: shapes[ shapeName ],
           size: size,
           rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
           colorTheme: themes[ themeNames[ i % themeNames.length ] ],
