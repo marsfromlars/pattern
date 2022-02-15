@@ -1,23 +1,3 @@
-/** Size element to use the full body size */
-function fullbody( el ) {
-  el.width = window.innerWidth
-  el.height = window.innerHeight
-}
-
-function fillBackground( context, color ) {
-  context.save()
-  context.fillStyle = color
-  context.fillRect( 0, 0, context.canvas.width, context.canvas.height )
-  context.restore()  
-}
-
-function fillBackgroundGradient( context, color ) {
-  context.save()
-  context.fillStyle = color
-  context.fillRect( 0, 0, context.canvas.width, context.canvas.height )
-  context.restore()  
-}
-
 function createPattern( context, config ) {
 
   context.save()
@@ -104,15 +84,3 @@ function drawShape( context, points, offset ) {
   context.fill();
 }
 
-function getRandomColor( config ) {
-  return config.colorTheme[ Math.floor( Math.random() * config.colorTheme.length ) ]
-}
-
-function getRandomColor2( config ) {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}

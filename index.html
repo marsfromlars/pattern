@@ -9,16 +9,18 @@
   </head>
   <body>
     <canvas id="c"></canvas>
+    <script src="canvas.js"></script>
     <script src="color.js"></script>
     <script src="pattern.js"></script>
     <script src="themes.js"></script>
+    <script src="shapes.js"></script>
     <script>
 
       let canvas = document.getElementById( 'c' )
 
       fullbody( canvas )
 
-      let context = canvas.getContext( '2d' );
+      let context = canvas.getContext( '2d' )
 
       let theme = themes.cloud
       let background = 'white' //'lightgray' //theme[ 0 ] )

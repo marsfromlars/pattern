@@ -48,3 +48,22 @@ let shapes = {
     ]
   }
 }
+
+function drawShape( context, shape, posize, color, fill ) {
+  context.beginPath()
+  context.moveTo( posize.x + shape.points[ 0 ][ 0 ] * posize.w, posize.y + shape.points[ 0 ][ 1 ]  * posize.h );
+  for( i = 1; i < shape.points.length; i++ ) {
+    context.lineTo( posize.x + shape.points[ i ][ 0 ] * posize.w, posize.y + shape.points[ i ][ 1 ] * posize.h );
+  }
+  context.lineTo( posize.x + shape.points[ 0 ][ 0 ] * posize.w, posize.y + shape.points[ 0 ][ 1 ] * posize.h );
+  if( fill ) {
+    context.fillStyle = color
+    context.fill()
+  }
+  else {
+    context.strokeStyle = color
+    context.lineWidth = 2
+    context.stroke()
+  }
+}
+

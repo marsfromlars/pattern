@@ -170,3 +170,16 @@ function convertToHexColor(decArray){
   }
   return hexColor;
 }
+
+function getRandomColor( config ) {
+  return config.colorTheme[ Math.floor( Math.random() * config.colorTheme.length ) ]
+}
+
+function getRandomColor2( config ) {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}

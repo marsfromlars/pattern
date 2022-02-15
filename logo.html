@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>logo</title>
+    <script src="canvas.js"></script>
+    <script src="shapes.js"></script>
+    <script src="themes.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas" />
+    <script>
+
+      let canvas = document.getElementById( 'canvas' )
+      let context = canvas.getContext( '2d' )
+
+      fullbody( canvas )
+      fillBackground( context, 'black' )
+
+      let themeNames = Object.keys( themes )
+      for( let i = 0; i < themeNames.length; i++ ) {
+        drawShape( context, shapes.diamond, { x: 100 + 50 * i, y: 100, w: 50, h: 100 }, themes[ themeNames[ i ] ][ 0 ], false )
+      }
+
+    </script>
+  </body>
+</html>
