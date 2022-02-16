@@ -3,32 +3,28 @@ function createPattern( context, config ) {
   context.save()
   let canvas = context.canvas
   let maxX = canvas.width + config.size.w, maxY = canvas.height + config.size.h
-  let shapeObject = config.shapeObject
+  let shape = config.shape
 
-  let position = { x: 0, y: -config.size.h }
-
-  let points = []
-  for( let i = 0; i < shapeObject.points.length; i++ ) {
-    let pointTemplate = shapeObject.points[ i ]
-    let point = {
-      x: pointTemplate[ 0 ] * config.size.w,
-      y: pointTemplate[ 1 ] * config.size.h
-    }
-    points.push( point )
+  let dimension = { 
+    x: 0, 
+    y: -config.size.h, 
+    w: config.size.w, 
+    h: config.size.h 
   }
 
   let rowOffsetIndex = 0
-  while( position.y < maxY ) {
+
+  while( dimension.y < maxY ) {
     let rowOffset = config.rowOffsets[ rowOffsetIndex ]
-    position.x = rowOffset.x - config.size.w
-    while( position.x < maxX ) {
+    dimension.x = rowOffset.x - config.size.w
+    while( dimension.x < maxX ) {
       let color = getRandomColor( config )
-      color = colorShift( color, position, config )
-      context.fillStyle = color
-      drawShape( context, points, position )
-      position.x += config.size.w
+      color = colorShift( color, dimension, config )
+      //context.fillStyle = color
+      drawShape( context, config.shape, dimension, color, config.filled )
+      dimension.x += config.size.w
     }
-    position.y += rowOffset.y
+    dimension.y += rowOffset.y
     rowOffsetIndex = ( rowOffsetIndex + 1 ) % config.rowOffsets.length
   } 
 
@@ -37,24 +33,24 @@ function createPattern( context, config ) {
 }
 
 /**
- * Shift the color in HSV space depending on its position
+ * Shift the color in HSV space depending on its dimension
  * 
  * @param {*} color 
- * @param {*} position 
+ * @param {*} dimension 
  * @param {*} config 
  */
-function colorShift( color, position, config ) {
+function colorShift( color, dimension, config ) {
   let rgb = convertColor( color )
   let hsv = rgbToHsv( rgb[ 0 ], rgb[ 1 ], rgb[ 2 ] )
   if( config.colorShift ) {
     if( config.colorShift.value ) {
       let v = hsv[ 2 ]
-      v = colorComponentShift3( v, position, config.colorShift.value )
+      v = colorComponentShift3( v, dimension, config.colorShift.value )
       hsv = [ hsv[ 0 ], hsv[ 1 ], v ]
     }
     if( config.colorShift.saturation ) {
       let s = hsv[ 1 ]
-      s = colorComponentShift3( s, position, config.colorShift.saturation )
+      s = colorComponentShift3( s, dimension, config.colorShift.saturation )
       hsv = [ hsv[ 0 ], s, hsv[ 2 ] ]
     }
   }
@@ -63,24 +59,26 @@ function colorShift( color, position, config ) {
 //  return color
 }
 
-function colorComponentShift( component, position, shift ) {
-  return Math.max( 0, component * 1 - ( Math.max( 0, position.x ) * shift.x ) * 1 - ( Math.max( 0, position.y ) * shift.y ) )
+function colorComponentShift( component, dimension, shift ) {
+  return Math.max( 0, component * 1 - ( Math.max( 0, dimension.x ) * shift.x ) * 1 - ( Math.max( 0, dimension.y ) * shift.y ) )
 }
 
-function colorComponentShift2( component, position, shift ) {
-  return Math.max( 0, component + Math.max( 0, position.x ) * shift.x * Math.max( 0, position.y ) * shift.y )
+function colorComponentShift2( component, dimension, shift ) {
+  return Math.max( 0, component + Math.max( 0, dimension.x ) * shift.x * Math.max( 0, dimension.y ) * shift.y )
 }
 
-function colorComponentShift3( component, position, shift ) {
-  return Math.max( 0, component - Math.min( 1, Math.max( 0, position.x ) * shift.x * Math.max( 0, position.y ) * shift.y ) )
+function colorComponentShift3( component, dimension, shift ) {
+  return Math.max( 0, component - Math.min( 1, Math.max( 0, dimension.x ) * shift.x * Math.max( 0, dimension.y ) * shift.y ) )
 }
 
-function drawShape( context, points, offset ) {
+/*
+function drawShape1( context, points, offset ) {
   context.beginPath();
-  context.moveTo( offset.x + points[ 0 ].x, offset.y + points[ 0 ].y );
+  context.moveTo( offset.x + points[ 0 ][ 0 ], offset.y + points[ 0 ][ 1 ] );
   for( i = 1; i < points.length; i++ ) {
-    context.lineTo( offset.x + points[ i ].x, offset.y + points[ i ].y );
+    context.lineTo( offset.x + points[ i ][ 0 ], offset.y + points[ i ][ 1 ] );
   }
   context.fill();
 }
+*/
 

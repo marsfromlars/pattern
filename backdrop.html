@@ -52,8 +52,8 @@
         let shapeName = shapeNames[ i ]
 
         let config = {
-          shape: shapeName,
-          shapeObject: shapes[ shapeName ],
+          shape: shapes[ shapeName ],
+          filled: true,
           size: size,
           rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
           colorTheme: themes[ themeNames[ themeIndex % themeNames.length ] ],
