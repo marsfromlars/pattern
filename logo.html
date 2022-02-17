@@ -2,6 +2,9 @@
   <head>
     <title>logo</title>
     <script src="canvas.js"></script>
+    <script src="color.js"></script>
+    <script src="lighting.js"></script>
+    <script src="pattern.js"></script>
     <script src="shapes.js"></script>
     <script src="themes.js"></script>
   </head>
@@ -15,9 +18,34 @@
       fullbody( canvas )
       fillBackground( context, 'black' )
 
+      let theme = themes.cloud
+      let background = 'white' //'lightgray' //theme[ 0 ] )
+      //fillBackground( context, background )
+      fillBackgroundGradient( context, background, 'white' )
+
+      let space = 1
+      let screenWidth = canvas.width * 3
+
+      let config = new PatternConfig()
+      config.shape = shapes.diamond
+      config.filled = true
+      config.size = { w: 20, h: 32 }
+      config.rowOffsets = [ { x: space, y: config.size.h / 2 + space }, { x: config.size.w / 2, y: config.size.h / 2 } ]
+      //config.colorTheme = [ theme[ 0 ] ]
+      config.colorTheme = theme
+      
+      let light = new LightSource( canvas.width / 2, canvas.height / 2 )
+      light.affected = light.HUE
+      light.start = 0.1
+      light.end = 0.9
+      light.size = Math.max( canvas.width, canvas.height )
+      config.addLight( light )
+
+      createPattern( context, config )
+
       let themeNames = Object.keys( themes )
       for( let i = 0; i < themeNames.length; i++ ) {
-        drawShape( context, shapes.diamond, { x: 100 + 50 * i, y: 100, w: 50, h: 100 }, themes[ themeNames[ i ] ][ 0 ], false )
+        drawShape( context, shapes.atari, { x: 100 + 50 * i, y: 100, w: 50, h: 50 }, themes[ themeNames[ i ] ][ 0 ], true )
       }
 
     </script>

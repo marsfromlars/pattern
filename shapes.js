@@ -47,6 +47,15 @@ let shapes = {
       [ 0.0, 0.9 ]
     ]
   }
+  , atari: {
+    type: 'filled_path',
+    points: [
+      [ 0.5, 0.0 ],
+      [ 1.5, 0.0 ],
+      [ 0.5, 1.0 ],
+      [ -0.5, 1.0 ]
+    ]
+  }
 }
 
 function drawShape( context, shape, posize, color, fill ) {

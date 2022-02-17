@@ -51,29 +51,15 @@
         let screenWidth = canvas.width * 3
         let shapeName = shapeNames[ i ]
 
-        let config = {
-          shape: shapes[ shapeName ],
-          filled: true,
-          size: size,
-          rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
-          colorTheme: themes[ themeNames[ themeIndex % themeNames.length ] ]
-          /*
-          ,
-          colorShift: {
-            value1: {
-              x: -1 / screenWidth / 2,
-              y: -1 / screenWidth / 2
-            },
-            saturation: {
-              x: 1 / screenWidth * 2,
-              y: 1 / screenWidth * 2
-            }
-          }
-          */
-        }
+        let config = new PatternConfig()
+
+        config.shape = shapes[ shapeName ]
+        config.filled = true
+        config.size = size
+        config.rowOffsets = [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ]
+        config.colorTheme = themes[ themeNames[ themeIndex % themeNames.length ] ]
 
         createPattern( context, config )
-
         themeIndex++
 
       }

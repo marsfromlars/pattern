@@ -39,10 +39,11 @@
       //config.colorTheme = [ theme[ 0 ] ]
       config.colorTheme = theme
       
-      let light = new LightSource( canvas.width, canvas.height )
-      light.start = 0
-      light.end = 1
-      light.size = 2 * Math.max( canvas.width, canvas.height )
+      let light = new LightSource( canvas.width / 2, canvas.height / 2 )
+      light.affected = light.HUE
+      light.start = 0.1
+      light.end = 0.9
+      light.size = Math.max( canvas.width, canvas.height )
       config.addLight( light )
 
       createPattern( context, config )

@@ -66,13 +66,22 @@ class LightSource {
     let normalized = Math.min( 1.0, distance / this.size )
     let rgb = hexToRgb( color )
     let hsv = rgbToHsv( rgb )
-    hsv[ 1 ] = this.start + ( this.end - this.start ) * normalized
+    if( this.affected == this.HUE ) {
+      hsv[ 0 ] = this.start + ( this.end - this.start ) * normalized
+    }
+    else if( this.affected == this.SATURATION ) {
+      hsv[ 1 ] = this.start + ( this.end - this.start ) * normalized
+    }
+    else if( this.affected == this.LIGHTNESS ) {
+      hsv[ 2 ] = this.start + ( this.end - this.start ) * normalized
+    }
     rgb = hsvToRgb( hsv )
     let hex = rgbToHex( rgb )
     return hex
   }
 
 }
+
 
 /**
  * Shortes distance between point and line
