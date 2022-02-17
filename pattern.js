@@ -1,3 +1,14 @@
+class PatternConfig {
+
+  lights = []
+
+  addLight( light ) {
+    this.lights.push( light )
+  }
+
+}
+
+
 function createPattern( context, config ) {
 
   context.save()
@@ -19,7 +30,8 @@ function createPattern( context, config ) {
     dimension.x = rowOffset.x - config.size.w
     while( dimension.x < maxX ) {
       let color = getRandomColor( config )
-      color = colorShift( color, dimension, config )
+      color = applyLighting( color, config, dimension )
+      //color = colorShift( color, dimension, config )
       //context.fillStyle = color
       drawShape( context, config.shape, dimension, color, config.filled )
       dimension.x += config.size.w
@@ -32,31 +44,17 @@ function createPattern( context, config ) {
 
 }
 
-/**
- * Shift the color in HSV space depending on its dimension
- * 
- * @param {*} color 
- * @param {*} dimension 
- * @param {*} config 
- */
-function colorShift( color, dimension, config ) {
-  let rgb = convertColor( color )
-  let hsv = rgbToHsv( rgb[ 0 ], rgb[ 1 ], rgb[ 2 ] )
-  if( config.colorShift ) {
-    if( config.colorShift.value ) {
-      let v = hsv[ 2 ]
-      v = colorComponentShift3( v, dimension, config.colorShift.value )
-      hsv = [ hsv[ 0 ], hsv[ 1 ], v ]
-    }
-    if( config.colorShift.saturation ) {
-      let s = hsv[ 1 ]
-      s = colorComponentShift3( s, dimension, config.colorShift.saturation )
-      hsv = [ hsv[ 0 ], s, hsv[ 2 ] ]
-    }
+function applyLighting( color, config, dimension ) {
+  for( let i = 0; i < config.lights.length; i++ ) {
+    let light = config.lights[ i ]
+    color = applyLight( color, light, dimension )
   }
-  rgb = hsvToRgb( hsv[ 0 ], hsv[ 1 ], hsv[ 2 ] )
-  return convertToHexColor( rgb )
-//  return color
+  return color
+}
+
+function applyLight( color, light, dimension ) {
+  color = light.applyLighting( color, dimension.x, dimension.y )
+  return color
 }
 
 function colorComponentShift( component, dimension, shift ) {

@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <title>lighting test</title>
+    <script src="../lighting.js"></script>
+    <script src="assertion.js"></script>
+    <link rel="stylesheet" href="assertion.css">
+  </head>
+  </head>
+  <body>
+    <script>
+
+      let bulb = new LightSource( 100, 100 )
+
+      let message = "Calculate distance to bulb"
+
+      assertEquals( 0, "bulb.calculateDistance( 100, 100 )", message )
+      assertEquals( 25, "bulb.calculateDistance( 125, 100 )", message )
+      assertEquals( 25, "bulb.calculateDistance( 100, 125 )", message )
+      assertEquals( "Math.sqrt( 100*100 + 100*100 )", "bulb.calculateDistance( 200, 200 )", message )
+      assertEquals( "Math.sqrt( 2*2 + 3*3 )", "bulb.calculateDistance( 102, 103 )", message )
+
+      message = "Distance between bulb and line"
+
+      let tube = new LightSource( 0, 0, 100, 100 )
+
+      assertEquals( 0, "tube.calculateDistance( 0, 0 )", message )
+      assertEquals( 0, "tube.calculateDistance( 100, 100 )", message )
+      assertEquals( "Math.sqrt( 100 * 100 / 2 )", "tube.calculateDistance( 100, 0 )", message )
+
+      tube.y2 = 0
+      assertEquals( 50, "tube.calculateDistance( 50, 50 )", message )
+
+      message = "Should throw exception when line has no direction"
+
+      tube.x2 = 0
+      assertError( "tube.calculateDistance( 0, 0 )", message )
+
+      // show results
+      printResults()
+
+    </script>
+  </body>
+</html>

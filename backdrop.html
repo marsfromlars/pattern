@@ -8,72 +8,44 @@
     </style>
   </head>
   <body>
-    <!--
     <canvas id="c"></canvas>
-    -->
     <script src="canvas.js"></script>
     <script src="color.js"></script>
+    <script src="lighting.js"></script>
     <script src="pattern.js"></script>
     <script src="themes.js"></script>
     <script src="shapes.js"></script>
     <script>
 
-      let shapeNames = Object.keys( shapes ) // [ 'diamond', 'triangle', 'tree', 'arrow' ]
-      let canvases = []
+      let canvas = document.getElementById( 'c' )
 
-      for( let i = 0; i < shapeNames.length; i++ ) {
-        let canvas = document.createElement( 'canvas' )
-        canvas.setAttribute( 'width', window.innerWidth + 'px' )
-        canvas.setAttribute( 'height', ( window.innerHeight / shapeNames.length ) + 'px' )
-        canvases.push( canvas )
-        document.body.appendChild( canvas )
-        document.body.appendChild( document.createElement( 'br' ) )
-      }
+      fullbody( canvas )
 
-      // let canvas = document.getElementById( 'c' )
-      // fullbody( canvas )
+      let context = canvas.getContext( '2d' )
 
-      let themeNames = Object.keys( themes )
-      let themeIndex = Math.floor( Math.random() * themeNames.length )
+      let theme = themes.cloud
+      let background = 'white' //'lightgray' //theme[ 0 ] )
+      //fillBackground( context, background )
+      fillBackgroundGradient( context, background, 'white' )
 
-      for( let i = 0; i < canvases.length; i++ ) {
+      let space = 1
+      let screenWidth = canvas.width * 3
 
-        let canvas = canvases[ i ]
-        let context = canvas.getContext( '2d' );
+      let config = new PatternConfig()
+      config.shape = shapes.diamond
+      config.filled = true
+      config.size = { w: 20, h: 32 }
+      config.rowOffsets = [ { x: space, y: config.size.h / 2 + space }, { x: config.size.w / 2, y: config.size.h / 2 } ]
+      //config.colorTheme = [ theme[ 0 ] ]
+      config.colorTheme = theme
+      
+      let light = new LightSource( canvas.width, canvas.height )
+      light.start = 0
+      light.end = 1
+      light.size = 2 * Math.max( canvas.width, canvas.height )
+      config.addLight( light )
 
-        let theme = themes.cloud
-        let background = 'white' //'lightgray' //theme[ 0 ] )
-        fillBackground( context, background )
-        //fillBackgroundGradient( context, background, 'white' )
-
-        let size = { w: 20, h: 32 }
-        let space = 1
-        let screenWidth = canvas.width * 3
-        let shapeName = shapeNames[ i ]
-
-        let config = {
-          shape: shapes[ shapeName ],
-          filled: true,
-          size: size,
-          rowOffsets: [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ],
-          colorTheme: themes[ themeNames[ themeIndex % themeNames.length ] ],
-          colorShift: {
-            value1: {
-              x: -1 / screenWidth / 2,
-              y: -1 / screenWidth / 2
-            },
-            saturation: {
-              x: 1 / screenWidth * 2,
-              y: 1 / screenWidth * 2
-            }
-          }
-        }
-
-        createPattern( context, config )
-
-        themeIndex++
-
-      }
+      createPattern( context, config )
 
     </script>
   </body>
