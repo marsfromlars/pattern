@@ -153,6 +153,9 @@ function hsvToRgb( hsv ) {
  * 
  */
 function hexToRgb(hexa){
+  let rgb = w3color( hexa )
+  return [ rgb.red, rgb.green, rgb.blue ]
+  /*
   var chunks = [];
   var tmp,i;
   hexa = hexa.substr(1); // remove the pound 
@@ -169,8 +172,8 @@ function hexToRgb(hexa){
   }else {
       throw new Error("'"+hexa+"' is not a valid hex format");
   }
-
   return chunks;
+  */
 }
 
 /**
@@ -181,6 +184,11 @@ function hexToRgb(hexa){
  * 
  */
 function rgbToHex(rgb){
+  /*
+  let colorObject = w3color( { r: rgb[ 0 ], g: rgb[ 1 ], b: rgb[ 2 ] } )
+  let hexString = colorObject.rgbToHex()
+  return hexString
+  */
   var i,l = rgb.length,
   hexColor = "#";
   for (i=0;i<l;i++){
@@ -201,3 +209,13 @@ function getRandomColor2( config ) {
   }
   return color;
 }
+
+function adjustBrightnessPercent( color, percent ) {
+  let rgb = hexToRgb( color )
+  let hsv = rgbToHsv( rgb )
+  hsv[ 2 ] = Math.min( 0, Math.max( 1, hsv[ 2 ] * ( percent / 100 ) ) )
+  rgb = hsvToRgb( hsv )
+  let hex = rgbToHex( rgb )
+  return hex
+}
+

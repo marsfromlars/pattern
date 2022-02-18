@@ -7,6 +7,7 @@
     <script src="pattern.js"></script>
     <script src="shapes.js"></script>
     <script src="themes.js"></script>
+    <script src="thirdparty/w3color.js"></script>
   </head>
   <body>
     <canvas id="canvas" />
@@ -43,10 +44,39 @@
 
       createPattern( context, config )
 
-      let themeNames = Object.keys( themes )
+      let posX = 100
+      let posY = 100
+      let height = 50
+
+      let themeNames = Object.keys( projectile.sixcolors )
       for( let i = 0; i < themeNames.length; i++ ) {
-        drawShape( context, shapes.atari, { x: 100 + 50 * i, y: 100, w: 50, h: 50 }, themes[ themeNames[ i ] ][ 0 ], true )
+        
+        let theme = projectile.sixcolors[ themeNames[ i ] ]
+        let color = theme.hero
+        let x = posX + 50 * i
+        let y = posY + height + 10
+        drawShape( context, shapes.atari, { x: x, y: y, w: 50, h: height }, color, true )
+
+        colorObject = w3color( color )
+        colorObject.darker( 10 + 5 * i )
+        color = colorObject.toHexString()
+        //color = adjustBrightnessPercent( color, -20 )
+
+        context.font = 'italic ' + ( 5 + i * 6 ) + 'px helvetica'
+        context.fillStyle = color
+        context.fillText( '' + ( i + 1 ), x + 5, y + height - 5 )
+
       }
+
+      context.font = 'bold 60px helvetica'
+      context.fillStyle = 'black'
+      context.fillText( 'Projectile', posX - 20, posY + 80 )
+
+      // for( let i = 0; i < projectile.sixcolors.length; i++ ) {
+      //   drawShape( context, shapes.atari, { x: 100 + 50 * i, y: 200, w: 50, h: 50 }, projectile.sixcolors[ projectile.sixcolors.length - 1 - i ], true )
+      // }
+
+
 
     </script>
   </body>
