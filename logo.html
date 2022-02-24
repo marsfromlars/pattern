@@ -17,36 +17,72 @@
       let context = canvas.getContext( '2d' )
 
       fullbody( canvas )
-      fillBackground( context, 'black' )
+      fillBackground( context, 'white' )
+
+      // background pattern ------------------------------------------------------
 
       let theme = themes.cloud
-      let background = 'white' //'lightgray' //theme[ 0 ] )
+      let background = '#bbddee' //'lightgray' //theme[ 0 ] )
       //fillBackground( context, background )
-      fillBackgroundGradient( context, background, 'white' )
+      //fillBackgroundGradient( context, background, 'white' )
 
-      let space = 1
       let screenWidth = canvas.width * 3
 
       let config = new PatternConfig()
       config.shape = shapes.diamond
       config.filled = true
-      config.size = { w: 20, h: 32 }
+      config.size = { w: 32, h: 48 }
+
+      let zoom = 2
+      config.size.w *= zoom
+      config.size.h *= zoom
+
+      let space = 3
       config.rowOffsets = [ { x: space, y: config.size.h / 2 + space }, { x: config.size.w / 2, y: config.size.h / 2 } ]
       //config.colorTheme = [ theme[ 0 ] ]
       config.colorTheme = theme
       
-      let light = new LightSource( canvas.width / 2, canvas.height / 2 )
+      let light = new LightSource( canvas.width *3/4, canvas.height / 3 )
       light.affected = light.HUE
       light.start = 0.1
-      light.end = 0.9
-      light.size = Math.max( canvas.width, canvas.height )
+      light.end = 0.99
+      light.size = Math.max( canvas.width / 2, canvas.height )
       config.addLight( light )
 
-      createPattern( context, config )
+      //createPattern( context, config )
+
+      // white background ------------------------------------
 
       let height = 50
-      let posX = canvas.width / 2 - 150
-      let posY = canvas.height / 2 - height - 20
+      let posX = canvas.width * 3/4 - 220
+      let posY = canvas.height / 3 - height - 20
+      let skew = height / 2 + 10
+
+      context.beginPath()
+      context.moveTo( posX + skew, posY );
+      context.lineTo( posX + height * 8 + skew, posY );
+      context.lineTo( posX + height * 8, posY + height * 3.5 );
+      context.lineTo( posX, posY + height * 3.5 );
+      context.lineTo( posX + skew, posY );
+      context.fillStyle = 'white'
+      context.fill()
+
+      context.strokeStyle = '#bbddee'
+      context.lineWidth = 6
+      context.lineCap = "round"
+      context.lineJoin = "round"
+      context.stroke()
+
+      // context.strokeStyle = 'white'
+      // context.lineWidth = 46
+      // context.lineCap = "round"
+      // context.lineJoin = "round"
+      // context.fill()
+
+
+      // 6 colors strip ------------------------------------
+
+      posX += 80
 
       let themeNames = Object.keys( projectile.sixcolors )
       for( let i = 0; i < themeNames.length; i++ ) {
@@ -67,6 +103,8 @@
         context.fillText( '' + ( i + 1 ), x + 12, y + height - 10 )
 
       }
+
+      // logo text --------------------------------------------------------------------------------
 
       context.font = 'bold italic 60px helvetica'
       context.fillStyle = '#555555'

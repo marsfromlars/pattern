@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>lighting</title>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+    <script src="canvas.js"></script>
+    <script src="color.js"></script>
+    <script src="pattern.js"></script>
+    <script src="themes.js"></script>
+    <script src="shapes.js"></script>
+    <script>
+
+      let shapeNames = Object.keys( shapes ) // [ 'diamond', 'triangle', 'tree', 'arrow' ]
+      let canvases = []
+
+      for( let i = 0; i < shapeNames.length; i++ ) {
+        let canvas = document.createElement( 'canvas' )
+        canvas.setAttribute( 'width', window.innerWidth + 'px' )
+        canvas.setAttribute( 'height', ( window.innerHeight / shapeNames.length ) + 'px' )
+        canvases.push( canvas )
+        document.body.appendChild( canvas )
+        document.body.appendChild( document.createElement( 'br' ) )
+      }
+
+      // let canvas = document.getElementById( 'c' )
+      // fullbody( canvas )
+
+      let themeNames = Object.keys( themes )
+      let themeIndex = Math.floor( Math.random() * themeNames.length )
+
+      for( let i = 0; i < canvases.length; i++ ) {
+
+        let canvas = canvases[ i ]
+        let context = canvas.getContext( '2d' );
+
+        let theme = themes.cloud
+        let background = 'white' //'lightgray' //theme[ 0 ] )
+        fillBackground( context, background )
+        //fillBackgroundGradient( context, background, 'white' )
+
+        let size = { w: 20, h: 32 }
+        let space = 1
+        let screenWidth = canvas.width * 3
+        let shapeName = shapeNames[ i ]
+
+        let config = new PatternConfig()
+
+        config.shape = shapes[ shapeName ]
+        config.filled = true
+        config.size = size
+        config.rowOffsets = [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ]
+        config.colorTheme = themes[ themeNames[ themeIndex % themeNames.length ] ]
+
+        createPattern( context, config )
+        themeIndex++
+
+      }
+
+    </script>
+  </body>
+</html>

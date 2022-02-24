@@ -17,6 +17,7 @@ class LightSource {
   RED = 'red' // 0 - 255
   GREEN = 'green' // 0 - 255
   BLUE = 'blue' // 0 - 255
+  VISIBILITY = 'visibility' // 0 / 1
 
   // default values
   type = this.BULB
