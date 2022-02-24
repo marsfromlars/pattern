@@ -9,6 +9,9 @@
  *  Kerry Liu
  *
  *  Copyright (c) 2014 Gliffy Inc.
+ * 
+ * https://github.com/gliffy/canvas2svg
+ * 
  */
 
 ;(function () {
