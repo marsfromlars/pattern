@@ -18,22 +18,23 @@
       let showControlPoints = false
       let paramX = 100
       let paramY = 100
-      let paramWidth = 300
+      let paramWidth = 400
       let paramHeight = paramWidth / 6.5
       let color = '#d34a33'
+
+      // upper part ---------------------------------------------
 
       let x = paramX
       let y = paramY
       let width = paramWidth
       let height = paramHeight ? paramHeight : paramWidth / 6
-      let yLower = y + height * 1.5
-      let textY = yLower
+      let yLower = y + height * 1.4
+      let textY = y + height * 1.6
       let curve = width / 4
       let thick = height / 2.5
       let skew = width / 15
       let point = 5
 
-      // upper part
       x += width / 5
 
       let c1x = x + curve
@@ -41,7 +42,7 @@
       let c2x = x + width - curve
       let c2y = y - height
       let x2 = x + width
-      let y2 = y + thick
+      let y2 = y + thick * 1.4
 
       if( showControlPoints ) {
         context.beginPath()
@@ -87,7 +88,7 @@
       c2x = x + width - curve
       c2y = y - height
       x2 = x + width
-      y2 = y + thick
+      y2 = y + thick / 4
 
       if( showControlPoints ) {
         context.beginPath()
@@ -126,7 +127,7 @@
       height *= -1
 
       let posX = x + width / 6
-      let textPx = width / 6
+      let textPx = width / 5.8
 
       context.font = 'bold italic ' + textPx + 'px verdana'
       context.fillStyle = '#555555'
