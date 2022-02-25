@@ -105,3 +105,7 @@ dist
 
 # don't know who creates this:
 out
+
+# my mac stuff
+.DS_Store
+.vscode
