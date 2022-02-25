@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>lighting</title>
+    <title>effects</title>
     <style>
       body {
         margin: 0;
@@ -14,15 +14,16 @@
     <script src="pattern.js"></script>
     <script src="themes.js"></script>
     <script src="shapes.js"></script>
+    <script src="effects.js"></script>
     <script>
 
-      let shapeNames = Object.keys( shapes ) // [ 'diamond', 'triangle', 'tree', 'arrow' ]
+      let effectNames = Object.keys( effects )
       let canvases = []
 
-      for( let i = 0; i < shapeNames.length; i++ ) {
+      for( let i = 0; i < effectNames.length; i++ ) {
         let canvas = document.createElement( 'canvas' )
         canvas.setAttribute( 'width', window.innerWidth + 'px' )
-        canvas.setAttribute( 'height', ( window.innerHeight / shapeNames.length ) + 'px' )
+        canvas.setAttribute( 'height', ( window.innerHeight / effectNames.length ) + 'px' )
         canvases.push( canvas )
         document.body.appendChild( canvas )
         document.body.appendChild( document.createElement( 'br' ) )
@@ -47,17 +48,33 @@
         let size = { w: 20, h: 32 }
         let space = 1
         let screenWidth = canvas.width * 3
-        let shapeName = shapeNames[ i ]
+        let effectName = effectNames[ i ]
 
         let config = new PatternConfig()
 
-        config.shape = shapes[ shapeName ]
+        config.shape = shapes[ 'diamond' ]
         config.filled = true
         config.size = size
         config.rowOffsets = [ { x: space, y: size.h / 2 + space }, { x: size.w / 2, y: size.h / 2 } ]
-        config.colorTheme = themes[ themeNames[ themeIndex % themeNames.length ] ]
+        //config.colorTheme = themes[ 'pureBlue' ]
+        config.colorTheme = themes[ 'cloud' ]
+
+        let light = new EffectSource( 0, canvas.height / 2 )
+        let effect = effects[ effectName ]
+        light.affected = effectNames[ i ]
+        light.start = effect.min
+        light.end = effect.max
+        light.size = Math.max( canvas.width, canvas.height )
+        config.addEffect( light )
 
         createPattern( context, config )
+
+        context.font = 'bold 30px helvetica'
+        context.fillStyle = 'white'
+        context.shadowBlur = 7
+        context.shadowColor = 'black'
+        context.fillText( effectName, 10, 30 )
+
         themeIndex++
 
       }

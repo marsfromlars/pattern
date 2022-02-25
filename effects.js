@@ -1,27 +1,58 @@
 // code to manipulate colors in relation to their distance from a light source
 
+let effects = {
+  hue : {
+    min: 0.0,
+    max: 1.0
+  },
+  saturation : {
+    min: 0.0,
+    max: 1.0
+  },
+  lightness : {
+    min: 0.0,
+    max: 1.0
+  },
+  red : {
+    min: 0,
+    max: 255
+  },
+  green : {
+    min: 0,
+    max: 255
+  },
+  blue : {
+    min: 0,
+    max: 255
+  },
+  visiblity : {
+    min: 0,
+    max: 1
+  }
+}
+
 /**
  * A light source is a point, area or other object which manipulates colors/light
  * around it - usually with decreasing effect in greater distance.
  * 
  */
-class LightSource {
+class EffectSource {
 
   BULB = 'bulb' // radial light source
   TUBE = 'tube' // linear light source
 
   // value to be affected by light source
-  HUE = 'hue' // 0.0 - 1.0
-  SATURATION = 'saturation' // 0.0 - 1.0
-  LIGHTNESS = 'lightness' // 0.0 - 1.0
-  RED = 'red' // 0 - 255
-  GREEN = 'green' // 0 - 255
-  BLUE = 'blue' // 0 - 255
-  VISIBILITY = 'visibility' // 0 / 1
+  // HUE = 'hue' // 0.0 - 1.0
+  // SATURATION = 'saturation' // 0.0 - 1.0
+  // LIGHTNESS = 'lightness' // 0.0 - 1.0
+  // RED = 'red' // 0 - 255
+  // GREEN = 'green' // 0 - 255
+  // BLUE = 'blue' // 0 - 255
+  // VISIBILITY = 'visibility' // 0 / 1
 
   // default values
   type = this.BULB
-  affected = this.LIGHTNESS // which value of RGB/HLS is affected
+  affected = 'lightness' // which value of RGB/HLS is affected
   x = 0 
   y = 0
   x2 = 100 // second point for TUBE shaped lights
@@ -63,22 +94,34 @@ class LightSource {
    * 
    */
   applyLighting( color, x, y ) {
+
     let distance = this.calculateDistance( x, y )
     let normalized = Math.min( 1.0, distance / this.size )
+    let range = this.end - this.start
+
     let rgb = hexToRgb( color )
     let hsv = rgbToHsv( rgb )
-    if( this.affected == this.HUE ) {
-      hsv[ 0 ] = this.start + ( this.end - this.start ) * normalized
+    if( this.affected == 'hue' ) {
+      hsv[ 0 ] = this.start + range * normalized
     }
-    else if( this.affected == this.SATURATION ) {
-      hsv[ 1 ] = this.start + ( this.end - this.start ) * normalized
+    else if( this.affected == 'saturation' ) {
+      hsv[ 1 ] = this.start + range * normalized
     }
-    else if( this.affected == this.LIGHTNESS ) {
-      hsv[ 2 ] = this.start + ( this.end - this.start ) * normalized
+    else if( this.affected == 'lightness' ) {
+      hsv[ 2 ] = this.start + range * normalized
+    }
+    else if( this.affected == 'visiblity' ) {
+      if( Math.random() < normalized ) {
+        return range < 0 ? null : color
+      }
+      else {
+        return range < 0 ? color : null
+      }
     }
     rgb = hsvToRgb( hsv )
-    let hex = rgbToHex( rgb )
+    let hex = rgbToHex( rgb )  
     return hex
+
   }
 
 }

@@ -153,9 +153,8 @@ function hsvToRgb( hsv ) {
  * 
  */
 function hexToRgb(hexa){
-  let rgb = w3color( hexa )
-  return [ rgb.red, rgb.green, rgb.blue ]
-  /*
+  // let rgb = w3color( hexa )
+  // return [ rgb.red, rgb.green, rgb.blue ]
   var chunks = [];
   var tmp,i;
   hexa = hexa.substr(1); // remove the pound 
@@ -173,7 +172,6 @@ function hexToRgb(hexa){
       throw new Error("'"+hexa+"' is not a valid hex format");
   }
   return chunks;
-  */
 }
 
 /**
@@ -192,7 +190,8 @@ function rgbToHex(rgb){
   var i,l = rgb.length,
   hexColor = "#";
   for (i=0;i<l;i++){
-      hexColor += Math.floor( rgb[i] ).toString(16);
+      let hex = Math.floor( rgb[i] ).toString(16);
+      hexColor += ( hex.length < 2 ? '0' + hex : hex )
   }
   return hexColor;
 }

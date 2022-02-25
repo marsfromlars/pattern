@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>lighting test</title>
-    <script src="../lighting.js"></script>
+    <script src="../effects.js"></script>
     <script src="assertion.js"></script>
     <link rel="stylesheet" href="assertion.css">
   </head>
@@ -9,7 +9,7 @@
   <body>
     <script>
 
-      let bulb = new LightSource( 100, 100 )
+      let bulb = new EffectSource( 100, 100 )
 
       let message = "Calculate distance to bulb"
 
@@ -21,7 +21,7 @@
 
       message = "Distance between bulb and line"
 
-      let tube = new LightSource( 0, 0, 100, 100 )
+      let tube = new EffectSource( 0, 0, 100, 100 )
 
       assertEquals( 0, "tube.calculateDistance( 0, 0 )", message )
       assertEquals( 0, "tube.calculateDistance( 100, 100 )", message )

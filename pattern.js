@@ -1,9 +1,9 @@
 class PatternConfig {
 
-  lights = []
+  effects = []
 
-  addLight( light ) {
-    this.lights.push( light )
+  addEffect( light ) {
+    this.effects.push( light )
   }
 
 }
@@ -31,9 +31,11 @@ function createPattern( context, config ) {
     while( dimension.x < maxX ) {
       let color = getRandomColor( config )
       color = applyLighting( color, config, dimension )
-      //color = colorShift( color, dimension, config )
-      //context.fillStyle = color
-      drawShape( context, config.shape, dimension, color, config.filled )
+      if( color ) {
+        //color = colorShift( color, dimension, config )
+        //context.fillStyle = color
+        drawShape( context, config.shape, dimension, color, config.filled )
+      }
       dimension.x += config.size.w
     }
     dimension.y += rowOffset.y
@@ -45,8 +47,8 @@ function createPattern( context, config ) {
 }
 
 function applyLighting( color, config, dimension ) {
-  for( let i = 0; i < config.lights.length; i++ ) {
-    let light = config.lights[ i ]
+  for( let i = 0; i < config.effects.length; i++ ) {
+    let light = config.effects[ i ]
     color = applyLight( color, light, dimension )
   }
   return color

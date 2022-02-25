@@ -1,13 +1,12 @@
 <html>
   <head>
-    <title>logo</title>
+    <title>login</title>
     <script src="canvas.js"></script>
     <script src="color.js"></script>
-    <script src="lighting.js"></script>
+    <script src="effects.js"></script>
     <script src="pattern.js"></script>
     <script src="shapes.js"></script>
     <script src="themes.js"></script>
-    <script src="thirdparty/w3color.js"></script>
   </head>
   <body>
     <canvas id="canvas" />
@@ -22,7 +21,7 @@
       // background pattern ------------------------------------------------------
 
       let theme = themes.cloud
-      let background = '#bbddee' //'lightgray' //theme[ 0 ] )
+      let background = '#bbddee' //'hueEffectgray' //theme[ 0 ] )
       //fillBackground( context, background )
       //fillBackgroundGradient( context, background, 'white' )
 
@@ -31,47 +30,76 @@
       let config = new PatternConfig()
       config.shape = shapes.diamond
       config.filled = true
-      config.size = { w: 32, h: 48 }
+      config.size = { w: 16, h: 24 }
 
       let zoom = 2
       config.size.w *= zoom
       config.size.h *= zoom
 
-      let space = 3
+      let space = 1
       config.rowOffsets = [ { x: space, y: config.size.h / 2 + space }, { x: config.size.w / 2, y: config.size.h / 2 } ]
       //config.colorTheme = [ theme[ 0 ] ]
       config.colorTheme = theme
-      
-      let light = new LightSource( canvas.width *3/4, canvas.height / 3 )
-      light.affected = light.HUE
-      light.start = 0.1
-      light.end = 0.99
-      light.size = Math.max( canvas.width / 2, canvas.height )
-      config.addLight( light )
 
-      //createPattern( context, config )
+      let effectX = canvas.width * 8/9
+      let effectY = canvas.height / 7
+      let effectSize = canvas.height
+      
+      let hueEffect = new EffectSource( effectX, effectY )
+      hueEffect.affected = 'hue'
+      hueEffect.start = 0
+      hueEffect.end = 1
+      hueEffect.size = effectSize
+      config.addEffect( hueEffect )
+
+      // effectX = 0
+      // effectY = canvas.height
+      effectSize = canvas.height
+
+      let visibleEffect = new EffectSource( effectX, effectY )
+      visibleEffect.affected = 'visiblity'
+      visibleEffect.start = 1
+      visibleEffect.end = 0
+      visibleEffect.size = effectSize
+      config.addEffect( visibleEffect )
+
+      createPattern( context, config )
 
       // white background ------------------------------------
 
       let height = 50
-      let posX = canvas.width * 3/4 - 220
+      let posX = canvas.width * 0.5
       let posY = canvas.height / 3 - height - 20
       let skew = height / 2 + 10
 
+      // context.beginPath()
+      // context.moveTo( posX + skew, posY );
+      // context.lineTo( posX + height * 8 + skew, posY );
+      // context.lineTo( posX + height * 8, posY + height * 3.5 );
+      // context.lineTo( posX, posY + height * 3.5 );
+      // context.lineTo( posX + skew, posY );
+      // context.fillStyle = 'white'
+      // context.fill()
+
+      let shadow = 15
+
       context.beginPath()
-      context.moveTo( posX + skew, posY );
-      context.lineTo( posX + height * 8 + skew, posY );
-      context.lineTo( posX + height * 8, posY + height * 3.5 );
-      context.lineTo( posX, posY + height * 3.5 );
-      context.lineTo( posX + skew, posY );
-      context.fillStyle = 'white'
+      context.rect( posX + shadow, posY + shadow, height * 9, height * 3.5 )
+      context.fillStyle = '#aaaaaa66'
       context.fill()
+
+      context.beginPath()
+      context.rect( posX, posY, height * 9, height * 3.5 )
+      context.fillStyle = '#fdfdfd'
+      context.strokeStyle = 'black'
+      context.fill()
+      context.stroke()
 
       context.strokeStyle = '#bbddee'
       context.lineWidth = 6
       context.lineCap = "round"
       context.lineJoin = "round"
-      context.stroke()
+      //context.stroke()
 
       // context.strokeStyle = 'white'
       // context.lineWidth = 46
@@ -93,13 +121,13 @@
         let y = posY + height + 10
         drawShape( context, shapes.atari, { x: x, y: y, w: 50, h: height }, color, true )
 
-        colorObject = w3color( color )
-        colorObject.lighter( 10 + 5 * i )
-        color = colorObject.toHexString()
+        //colorObject = w3color( color )
+        //colorObject.hueEffecter( 10 + 5 * i )
+        //color = colorObject.toHexString()
         //color = adjustBrightnessPercent( color, -20 )
 
         context.font = 'italic ' + ( 25 + i * 3 ) + 'px helvetica'
-        context.fillStyle = color
+        context.fillStyle = 'white'
         context.fillText( '' + ( i + 1 ), x + 12, y + height - 10 )
 
       }
@@ -119,8 +147,6 @@
       // for( let i = 0; i < projectile.sixcolors.length; i++ ) {
       //   drawShape( context, shapes.atari, { x: 100 + 50 * i, y: 200, w: 50, h: 50 }, projectile.sixcolors[ projectile.sixcolors.length - 1 - i ], true )
       // }
-
-
 
     </script>
   </body>

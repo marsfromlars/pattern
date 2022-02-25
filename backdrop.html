@@ -11,12 +11,11 @@
     <canvas id="c"></canvas>
     <script src="canvas.js"></script>
     <script src="color.js"></script>
-    <script src="lighting.js"></script>
+    <script src="effects.js"></script>
     <script src="pattern.js"></script>
     <script src="themes.js"></script>
     <script src="shapes.js"></script>
     <script src="thirdparty/canvas2svg.js"></script>
-    <script src="thirdparty/w3color.js"></script>
     <script>
 
       let canvas = document.getElementById( 'c' )
@@ -52,8 +51,8 @@
         //config.colorTheme = [ theme[ 0 ] ]
         config.colorTheme = theme
         
-        let light = new LightSource( canvas.width / 2, canvas.height / 2 )
-        light.affected = light.HUE
+        let light = new EffectSource( canvas.width / 2, canvas.height / 2 )
+        light.affected = 'hue'
         light.start = 0.1
         light.end = 0.9
         light.size = Math.max( canvas.width, canvas.height )
