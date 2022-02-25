@@ -5,9 +5,22 @@
     <script src="color.js"></script>
     <script src="themes.js"></script>
     <script src="thirdparty/canvas2svg.js"></script>
+    <style>
+      body {
+        margin: 0;
+        border: 0;
+        padding: 0;
+      }
+      canvas {
+        border: 1px solid red;
+      }
+      textarea {
+        width: 100%;
+      }
+    </style>
   </head>
   <body>
-    <table width="1000" border="1">
+    <table>
       <tr><td>
         <canvas id="canvas" />
       </td></tr>
@@ -17,24 +30,27 @@
     </table>
     <script>
 
+      let canvas = document.getElementById( 'canvas' )
+      let context = canvas.getContext( '2d' )
+
+      canvas.width = window.innerHeight
+      canvas.height = window.innerHeight / 2
+
       let config = {
 
         showControlPoints: false,
         paramX: 0,
         paramY: 0,
-        paramWidth: 400,
+        paramWidth: window.innerHeight * 0.8,
         color: '#d34a33'
 
       }
 
       config.paramHeight = config.paramWidth / 6.5
 
-      let canvas = document.getElementById( 'canvas' )
-      let context = canvas.getContext( '2d' )
 
-      fullbody( canvas )
+      //fullbody( canvas )
       //fillBackground( context, 'white' )
-      canvas.height = config.paramHeight * 7
 
       let svgContext = new C2S( config.paramWidth * 2, canvas.height * 2 )
       draw( config, svgContext )
@@ -57,7 +73,7 @@
         // upper part ---------------------------------------------
 
         let x = paramX
-        let y = paramY
+        let y = paramY + paramHeight
         let width = paramWidth
         let height = paramHeight ? paramHeight : paramWidth / 6
         let yLower = y + height * 1.4
@@ -159,7 +175,7 @@
         height *= -1
 
         let posX = x + width / 6
-        let textPx = width / 5.8
+        let textPx = Math.floor( width / 5.8 )
 
         context.font = 'bold italic ' + textPx + 'px verdana'
         context.fillStyle = '#555555'

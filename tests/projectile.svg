@@ -1,0 +1,8 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="350">
+  <defs />
+  <g>
+    <path fill="#d34a33" stroke="none" paint-order="stroke fill markers" d=" M 132.8 102.15384615384616 C 298.8 0 630.8 0 796.8 159.36 C 630.8 40.861538461538466 298.8 40.861538461538466 177.06666666666666 122.58461538461539" />
+    <path fill="#d34a33" stroke="none" paint-order="stroke fill markers" d=" M 0 245.16923076923078 C 166 347.32307692307694 498 347.32307692307694 664 234.95384615384617 C 498 306.46153846153845 166 306.46153846153845 44.266666666666666 224.73846153846154" />
+    <text fill="#555555" stroke="none" font-family="verdana" font-size="114px" font-style="italic" font-weight="bold" text-decoration="normal" x="110.66666666666667" y="210.52041015625002" text-anchor="start" dominant-baseline="alphabetic">projectile</text>
+  </g>
+</svg>
