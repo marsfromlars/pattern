@@ -1,0 +1,209 @@
+<html>
+  <head>
+    <title>projectile2</title>
+    <script src="canvas.js"></script>
+    <script src="color.js"></script>
+    <script src="themes.js"></script>
+    <script src="thirdparty/canvas2svg.js"></script>
+    <style>
+      body {
+        margin: 0;
+        border: 0;
+        padding: 0;
+      }
+      canvas {
+        border: 1px solid red;
+      }
+      textarea {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <tr><td>
+        <canvas id="canvas" />
+      </td></tr>
+      <tr><td>
+        <textarea id="svg" cols="120" rows="100"></textarea>
+      </td></tr>
+    </table>
+    <script>
+
+      let canvas = document.getElementById( 'canvas' )
+      let context = canvas.getContext( '2d' )
+
+      canvas.width = window.innerHeight
+      canvas.height = window.innerHeight / 2
+
+      let config = {
+
+        showControlPoints: false,
+        paramX: 0,
+        paramY: 0,
+        paramWidth: window.innerHeight * 0.8,
+        color: '#d34a33'
+
+      }
+
+      config.paramHeight = config.paramWidth / 6.5
+
+
+      //fullbody( canvas )
+      //fillBackground( context, 'white' )
+
+      let svgContext = new C2S( config.paramWidth * 2, canvas.height * 2 )
+      draw( config, svgContext )
+      var svgCode = svgContext.getSerializedSvg( true )
+
+      let textarea = document.getElementById( 'svg' )
+      textarea.value = svgCode
+
+      draw( config, context )
+
+      function draw( config, context ) {
+
+        let showControlPoints = config.showControlPoints
+        let paramX = config.paramX
+        let paramY = config.paramY
+        let paramWidth = config.paramWidth
+        let paramHeight = config.paramHeight
+        let color = config.color
+
+        // upper part ---------------------------------------------
+
+        let x = paramX
+        let y = paramY + paramHeight
+        let width = paramWidth
+        let height = paramHeight ? paramHeight : paramWidth / 6
+        // let yLower = y + height * 1.4
+        let textY = y + height * 1.6
+        // let curve = width / 4
+        // let thick = height / 2.5
+        // let skew = width / 15
+        // let point = 5
+
+        // x += width / 5
+
+        // let c1x = x + curve
+        // let c1y = y - height
+        // let c2x = x + width - curve
+        // let c2y = y - height
+        // let x2 = x + width
+        // let y2 = y + thick * 1.4
+
+        // if( showControlPoints ) {
+        //   context.beginPath()
+        //   context.fillStyle = 'red'
+        //   context.rect( c1x - point / 2, c1y - point / 2, point, point )
+        //   context.rect( c2x - point / 2, c2y - point / 2, point, point )
+        //   context.fill()
+        // }
+
+        // context.beginPath();
+        // context.moveTo( x, y )
+
+        // context.bezierCurveTo( c1x, c1y, c2x, c2y, x2, y2 )
+        // c1x = x + width - curve
+        // c1y = y - height + thick
+        // c2x = x + curve
+        // c2y = y - height + thick
+        // x2 = x + skew
+        // y2 = y + thick / 2
+
+        // context.bezierCurveTo( c1x, c1y, c2x, c2y, x2, y2 )
+
+        // context.fillStyle = color
+        // context.fill()
+
+        // if( showControlPoints ) {
+        //   context.beginPath()
+        //   context.fillStyle = 'green'
+        //   context.rect( c1x - point / 2, c1y - point / 2, point, point )
+        //   context.rect( c2x - point / 2, c2y - point / 2, point, point )
+        //   context.fill()
+        // }
+
+        // // lower part -----------------------------------------------------------
+        // x -= width / 5
+
+        // y = yLower
+        // height *= -1
+        // thick *= -1
+
+        // c1x = x + curve
+        // c1y = y - height
+        // c2x = x + width - curve
+        // c2y = y - height
+        // x2 = x + width
+        // y2 = y + thick / 4
+
+        // if( showControlPoints ) {
+        //   context.beginPath()
+        //   context.fillStyle = 'red'
+        //   context.rect( c1x - point / 2, c1y - point / 2, point, point )
+        //   context.rect( c2x - point / 2, c2y - point / 2, point, point )
+        //   context.fill()
+        // }
+
+        // context.beginPath();
+        // context.moveTo( x, y )
+
+        // context.bezierCurveTo( c1x, c1y, c2x, c2y, x2, y2 )
+        // c1x = x + width - curve
+        // c1y = y - height + thick
+        // c2x = x + curve
+        // c2y = y - height + thick
+        // x2 = x + skew
+        // y2 = y + thick / 2
+
+        // context.bezierCurveTo( c1x, c1y, c2x, c2y, x2, y2 )
+
+        // context.fillStyle = color
+        // context.fill()
+
+        // if( showControlPoints ) {
+        //   context.beginPath()
+        //   context.fillStyle = 'green'
+        //   context.rect( c1x - point / 2, c1y - point / 2, point, point )
+        //   context.rect( c2x - point / 2, c2y - point / 2, point, point )
+        //   context.fill()
+        // }
+
+        let logoWidth = height / 2
+        let logoHeight = height * 2
+        let logoX = x + logoWidth + 30
+
+        context.beginPath()
+        context.moveTo( logoX, y )
+        context.lineTo( logoX + logoWidth, y + logoHeight / 2 )
+        context.lineTo( logoX, y + logoHeight )
+        context.lineTo( logoX - logoWidth, y + logoHeight / 2 )
+        context.fillStyle = config.color
+        context.fill()
+
+        // text  ------------------------------------------
+
+        height *= -1
+
+        let posX = x + width / 6 + 50 
+        let textPx = Math.floor( width / 7 )
+
+        context.font = 'bold italic ' + textPx + 'px verdana'
+        context.fillStyle = '#555555'
+        context.shadowBlur = 7
+        context.shadowColor = 'white'
+        let text = 'projectile'
+        let textBox = context.measureText( text )
+        let textHeight = textBox.actualBoundingBoxAscent + textBox.actualBoundingBoxDescent
+        //context.fillText( text, posX - textBox.width / 2, posY - textHeight / 2 )
+        
+        let posY = textY - textHeight / 2
+        context.fillText( text, posX, posY )
+
+
+      }
+
+    </script>
+  </body>
+</html>
