@@ -28,6 +28,11 @@ let effects = {
   visiblity : {
     min: 0,
     max: 1
+  },
+  randomblip : {
+    min: 0,
+    max: 1,
+    color: 'green'
   }
 }
 
@@ -95,30 +100,52 @@ class EffectSource {
    */
   applyLighting( color, x, y ) {
 
+    if( !color ) {
+      return color
+    }
+
     let distance = this.calculateDistance( x, y )
     let normalized = Math.min( 1.0, distance / this.size )
     let range = this.end - this.start
 
     let rgb = hexToRgb( color )
-    let hsv = rgbToHsv( rgb )
-    if( this.affected == 'hue' ) {
-      hsv[ 0 ] = this.start + range * normalized
-    }
-    else if( this.affected == 'saturation' ) {
-      hsv[ 1 ] = this.start + range * normalized
-    }
-    else if( this.affected == 'lightness' ) {
-      hsv[ 2 ] = this.start + range * normalized
-    }
-    else if( this.affected == 'visiblity' ) {
-      if( Math.random() < normalized ) {
-        return range < 0 ? null : color
+    if( this.affected == 'red' || this.affected == 'green' || this.affected == 'blue' ) {
+      if( this.affected == 'red' ) {
+        rgb[ 0 ] = this.start + range * normalized
       }
-      else {
-        return range < 0 ? color : null
+      else if( this.affected == 'green' ) {
+        rgb[ 1 ] = this.start + range * normalized
+      }
+      else if( this.affected == 'blue' ) {
+        rgb[ 2 ] = this.start + range * normalized
       }
     }
-    rgb = hsvToRgb( hsv )
+    else if( this.affected == 'randomblip' ) {
+      if( Math.random() < this.start + range * normalized ) {
+        return this.color
+      }
+    }
+    else {
+      let hsv = rgbToHsv( rgb )
+      if( this.affected == 'hue' ) {
+        hsv[ 0 ] = this.start + range * normalized
+      }
+      else if( this.affected == 'saturation' ) {
+        hsv[ 1 ] = this.start + range * normalized
+      }
+      else if( this.affected == 'lightness' ) {
+        hsv[ 2 ] = this.start + range * normalized
+      }
+      else if( this.affected == 'visiblity' ) {
+        if( Math.random() < normalized ) {
+          return range < 0 ? null : color
+        }
+        else {
+          return range < 0 ? color : null
+        }
+      }
+      rgb = hsvToRgb( hsv )  
+    }
     let hex = rgbToHex( rgb )  
     return hex
 

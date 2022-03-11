@@ -61,6 +61,7 @@
 
         let light = new EffectSource( 0, canvas.height / 2 )
         let effect = effects[ effectName ]
+        light.color = effect.color
         light.affected = effectNames[ i ]
         light.start = effect.min
         light.end = effect.max
