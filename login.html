@@ -16,7 +16,16 @@
       let context = canvas.getContext( '2d' )
 
       fullbody( canvas )
-      fillBackground( context, 'white' )
+      //fillBackground( context, 'white' )
+
+      var grd = context.createLinearGradient(0, 0, 0, canvas.height);
+      grd.addColorStop(0.5, "#4f6a8f");
+      grd.addColorStop(1, "#88a2bc");
+
+      // Fill with gradient
+      context.fillStyle = grd;
+      context.fillRect( 0, 0, canvas.width, canvas.height )
+
 
       // background pattern ------------------------------------------------------
 
@@ -63,7 +72,7 @@
       visibleEffect.size = effectSize * 1.7
       config.addEffect( visibleEffect )
 
-      createPattern( context, config )
+      //createPattern( context, config )
 
       visibleEffect = new EffectSource( effectX, effectY )
       visibleEffect.affected = 'randomblip'
@@ -73,7 +82,7 @@
       visibleEffect.size = 1000
       config.addEffect( visibleEffect )
 
-      createPattern( context, config )
+      //createPattern( context, config )
 
       // white background ------------------------------------
 
@@ -83,11 +92,11 @@
       let posY = canvas.height / 2 - height
       //let skew = height / 2 + 10
 
-      let shadow = 15
+      let shadow = 12
 
       context.beginPath()
       context.rect( posX + shadow, posY + shadow, width, height )
-      context.fillStyle = '#aaaaaa66'
+      context.fillStyle = '#555555aa'
       context.fill()
 
       context.beginPath()
